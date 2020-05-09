@@ -1,0 +1,26 @@
+type User {
+  id: ID
+  name: String
+  email: String
+  password: String
+}
+
+type Query {
+  me: User
+  users: [User]
+}
+
+input AuthInput {
+  accessToken: String!
+}
+
+type Mutation {
+  loginUser(email: String!, password: String!): AuthenticateUserPayload
+  createUser(name: String!, email: String!, password: String!): User
+  authFacebook(input: AuthInput!): AuthenticateUserPayload
+}
+
+type AuthenticateUserPayload {
+  id: ID
+  token: String
+}

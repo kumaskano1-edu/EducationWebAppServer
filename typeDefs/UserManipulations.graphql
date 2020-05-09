@@ -1,0 +1,46 @@
+type User {
+  id: ID
+  name: String
+  email: String
+  password: String
+  todos: [Todo]
+  subjects: [Subject]
+}
+type Subject {
+  SubjectId: ID
+  title: String
+  professor: String
+  users: [User]
+}
+type Todo{
+  TodoId: ID
+  title: String
+  description: String
+  dueDate: String
+  subject: Subject
+  user: User
+}
+
+type Query {
+    getUser(id: String!): User
+    getUsers: [User]
+    getSubjectsUser(id: String): User
+}
+type Mutation {
+  ##Users
+    changeEmail(Email: String! userId: String!): User #checled
+    changeName(userId: String! name: String!): User #checked
+    changePassword(userId: String! newPassword: String!): User #checked
+    addSubjectforUser(userId: String! SubjectId: String!): User #checked
+    removeSubjectforUser(userId: String! SubjectId: String!): User #checked
+    changeSubjectforUser(UserId: String!, SubjectId: String!, SubjectTittle: String!): User#checked
+  ##Todo  
+    ChangeSubjectofTodo(TodoId: String!, oldSubjectId: String!, newSubjectId: String! ): Todo
+    addTodoforUser(userId: String! SubjectId: String!): Todo #checked
+    changeDueDate(UserId: String! TodoId: String! newDate: String!): User #checked 
+    removeTodoforUser(id: String! TodoId: String!): User #checked
+
+}
+
+##TODO: Check the relation between subject, todo, users
+##update user -> he changes the tittle, ->
