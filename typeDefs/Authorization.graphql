@@ -13,14 +13,12 @@ type Query {
 input AuthInput {
   accessToken: String!
 }
-
+type AuthenticateUserPayload {
+  id: ID
+  token: String
+}
 type Mutation {
   loginUser(email: String!, password: String!): AuthenticateUserPayload
   createUser(name: String!, email: String!, password: String!): User
   authFacebook(input: AuthInput!): AuthenticateUserPayload
-}
-
-type AuthenticateUserPayload {
-  id: ID
-  token: String
 }

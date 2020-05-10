@@ -1,0 +1,2 @@
+ https://go-study-backend.herokuapp.com/ -> heroku backend website
+ https://go-study-0f34b70029.herokuapp.com/finallServer/dev -> prisma server, database host
