@@ -1,2 +1,16 @@
  https://go-study-backend.herokuapp.com/ -> heroku backend website
  https://go-study-0f34b70029.herokuapp.com/finallServer/dev -> prisma server, database host
+
+
+What I have finished sucessfuly:
+	Before I rememeber:
+		CLient:
+			Private routes fixed,
+			created login and registration pages in the client
+	Sunday May 09: I have fixed the registration and login methods that respond with the cookie,
+		Server:
+			Also deployed server and container in heroku.
+
+What to do:
+	learn apollo client
+	Deploy the client part in the netlify 
