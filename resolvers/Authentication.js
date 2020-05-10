@@ -43,50 +43,49 @@ module.exports = {
       };
       return prisma.createUser(newUser);
     },
-    //   authFacebook: async (
-    //     parent,
-    //     { input: { accessToken } },
-    //     { req, res, prisma }
-    //   ) => {
-    //     req.body = { ...req.body, access_token: accessToken };
-    //     try {
-    //       const { data, info } = await authenticateFacebook(req, res);
-    //       if (data) {
-    //         const user = await prisma.user({
-    //           email: data.profile.emails[0].value,
-    //         });
-    //         let userId = null;
-    //         if (!user) {
-    //           let newUser = await prisma.createUser({
-    //             id: data.profile.id,
-    //             name: data.profile.displayName || data.profile.givenName,
-    //             email: data.profile.emails[0].value,
-    //             password: await bcrypt.hash(data.profile.emails[0].value, 12),
-    //           });
-    //           userId = newUser.id;
-    //         }
+    authFacebook: async (
+      parent,
+      { input: { accessToken } },
+      { req, res, prisma }
+    ) => {
+      req.body = { ...req.body, access_token: accessToken };
+      try {
+        const { data, info } = await authenticateFacebook(req, res);
+        if (data) {
+          const user = await prisma.user({
+            email: data.profile.emails[0].value,
+          });
+          let userId = null;
+          if (!user) {
+            let newUser = await prisma.createUser({
+              id: data.profile.id,
+              name: data.profile.displayName || data.profile.givenName,
+              email: data.profile.emails[0].value,
+              password: await bcrypt.hash(data.profile.emails[0].value, 12),
+            });
+            userId = newUser.id;
+          }
 
-    //         let userToken = {
-    //           id: userId || user.id,
-    //           token: data.accessToken,
-    //         };
-    //         res.cookie("token", userToken.token, { httpOnly: true }); // like that
-    //         return userToken;
-    //       }
-    //       if (info) {
-    //         console.log(info);
-    //         switch (info.code) {
-    //           case "ETIMEDOUT":
-    //             return new Error("Failed to reach Facebook: Try Again");
-    //           default:
-    //             return new Error("something went wrong");
-    //         }
-    //       }
-    //       return Error("server error");
-    //     } catch (error) {
-    //       return error;
-    //     }
-    //    },
-    // },
+          let userToken = {
+            id: userId || user.id,
+            token: data.accessToken,
+          };
+          res.cookie("token", userToken.token, { httpOnly: true }); // like that
+          return userToken;
+        }
+        if (info) {
+          console.log(info);
+          switch (info.code) {
+            case "ETIMEDOUT":
+              throw new Error("Failed to reach Facebook: Try Again");
+            default:
+              throw new Error("something went wrong");
+          }
+        }
+        throw Error("server error");
+      } catch (error) {
+        return error;
+      }
+    },
   },
 };
