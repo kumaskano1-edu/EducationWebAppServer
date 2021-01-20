@@ -2,7 +2,6 @@ type User {
   id: ID
   name: String
   email: String
-  password: String
 }
 
 type Query {
@@ -10,15 +9,6 @@ type Query {
   users: [User]
 }
 
-input AuthInput {
-  accessToken: String!
-}
-type AuthenticateUserPayload {
-  id: ID
-  token: String
-}
 type Mutation {
-  loginUser(email: String!, password: String!): AuthenticateUserPayload
-  createUser(name: String!, email: String!, password: String!): User
-  authFacebook(input: AuthInput!): AuthenticateUserPayload
+  createUser(name: String!, email: String!): User
 }
