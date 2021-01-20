@@ -1,6 +1,14 @@
+const isTokenValid = require('../authentication/validate');
+
+
 module.exports = {
   Mutation: {
     changeEmail: (parent, { Email, userId }, context) => {
+      const {token} = await context();
+      const {error} = await isTokenValid(token);
+      if (error) {
+        throw new Error(error);
+      }
       return context.prisma.updateUser({
         data: {
           email: Email,

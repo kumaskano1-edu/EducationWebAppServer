@@ -1,10 +1,10 @@
-const { authenticateFacebook } = require("../resolvers/utils/SocialAuth");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const SECRET = process.env.SECRET || "Kuma";
 module.exports = {
   Query: {
-    users: async (parent, args, { prisma }, __) => {
+    users: async (parent, args, { isAuthenticated, prisma }, __) => {
+      if(!isAuthenticated) {
+        throw new Error("not authoried");
+      }
       return await prisma.users();
     },
   },
@@ -17,7 +17,6 @@ module.exports = {
       const userExists = await prisma.user({ email });
       if (userExists) {
         throw new Error("User with this email, already exists");
-        return 0;
       }
 
       const newUser = {
